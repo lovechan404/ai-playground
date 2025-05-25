@@ -1,4 +1,5 @@
-<img src="https://github.com/user-attachments/assets/3f76a96a-ac3e-46ff-9665-ac1eae92ab59" width="150" height="150">
+![ai-playground-150x150](https://github.com/user-attachments/assets/719e6e48-2b05-4a59-8616-3667e9c52296)
+
 
 # AI Playground
 
