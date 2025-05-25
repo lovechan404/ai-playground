@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const confirmModal = document.createElement('div');
                 confirmModal.classList.add('modal', 'js-dynamic-confirm-modal');
                 confirmModal.style.display = 'flex';
-                confirmModal.innerHTML = `<div class="modal-content"><span class="close-button">&times;</span><p>Delete this message and all subsequent messages?</p><div style="text-align:center;margin-top:15px;"><button class="action-btn primary-btn" id="confirmDeleteYesButton">Yes, Delete</button><button class="action-btn" id="confirmDeleteNoButton">Cancel</button></div></div>`;
+                confirmModal.innerHTML = `<div class="modal-content"><span class="close-button">&times;</span><p>Delete this message and all subsequent messages?</p><div style="text-align:center;margin-top:15px;"><button class="action-btn primary-btn" id="confirmDeleteYesButton">Yes, Delete</button> <button class="action-btn" id="confirmDeleteNoButton">Cancel</button></div></div>`;
                 document.body.appendChild(confirmModal);
                 const closeConfirm = () => { if (document.body.contains(confirmModal)) confirmModal.remove(); };
                 confirmModal.querySelector('.close-button').onclick = closeConfirm;
