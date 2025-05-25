@@ -113,7 +113,7 @@ Users are solely responsible for configuring and using API keys properly. Make s
 
 ## License
 
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the **AGPL-3.0**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
