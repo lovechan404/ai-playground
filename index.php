@@ -663,11 +663,11 @@ if (isset($_GET['clear'])) {
                     
                     <h4>Donate</h4>
                     <p>
-                        This project is free to use, but if you appreciate it, you can support me here:  
-                        <a href="https://donate.lovechan.cc/" target="_blank"><strong>Donate Here</strong></a>
+                        ✨ This project is totally free, but if you’d like to sprinkle some magic ✨ and help me keep it running, I’d be super grateful!   
+                        <a href="https://donate.lovechan.cc/" target="_blank">Click here to support.</a>
                     </p>
 
-                    <p>Start by typing your first message below!</p>
+                    <p>Start by typing your first message below! 🐸</p>
 
                 </div>
             <?php endif; ?>
