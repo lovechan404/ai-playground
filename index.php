@@ -661,6 +661,12 @@ if (isset($_GET['clear'])) {
                         <li><strong>Groq:</strong> <a href="https://console.groq.com/keys" target="_blank" >Get API Key</a></li>
                     </ul>
                     
+                    <h4>Donate</h4>
+                    <p>
+                        This project is free to use, but if you appreciate it, you can support me here:  
+                        <a href="https://donate.lovechan.cc/" target="_blank"><strong>Donate Here</strong></a>
+                    </p>
+
                     <p>Start by typing your first message below!</p>
 
                 </div>
