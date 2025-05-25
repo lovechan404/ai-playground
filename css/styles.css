@@ -268,7 +268,7 @@ textarea#messageInput:focus {
 .edit-textarea, .edit-ai-textarea {
     width: 100%;
     max-width: 100%;
-    min-width: 350px;
+    min-width: 220px;
     min-height: 80px;
     margin-top: 8px;
     margin-bottom: 5px;
