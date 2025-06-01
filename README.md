@@ -43,16 +43,16 @@ A lightweight, self-hostable AI chat interface designed for quick experimentatio
 
 ### Installation
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/lovechan404/ai-playground.git
-    ```
-2.  Navigate to the project directory:
-    ```bash
-    cd ai-playground
-    ```
-3.  Ensure your web server is configured to serve PHP files from this directory.
-4.  Open the `index.php` file in your browser.
+**Using CLI:**  
+Run the following command to clone the repository:  
+```bash
+git clone https://github.com/lovechan404/ai-playground.git
+```
+Move the extracted folder to your server’s root directory (`htdocs` for XAMPP or `www` for WAMP/LAMP), start the server, and access it via `http://localhost/ai-playground`.
+
+**Downloading ZIP:**  
+[Download here](https://github.com/lovechan404/ai-playground/archive/refs/heads/main.zip), extract, place in your server’s root directory, start the server, and open `http://localhost/ai-playground`.  
+
 
 ### API Configuration
 
