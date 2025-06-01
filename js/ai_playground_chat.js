@@ -388,7 +388,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         tempTextArea.select();
                         document.execCommand('copy');
                         document.body.removeChild(tempTextArea);
-                        showTempModal('Copied to clipboard!');
                         target.textContent = 'Copied!';
                         setTimeout(() => { target.textContent = 'Copy'; }, 2000);
                     } catch (err) {

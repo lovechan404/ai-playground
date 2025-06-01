@@ -135,14 +135,15 @@ function updateAllActionButtons() {
                 }
             }
         } else if (messageElement.classList.contains('user')) {
-            actionsDiv.innerHTML += `<button class="delete-button action-btn" data-message-id="${messageId}">Delete</button>`;
+            actionsDiv.innerHTML += `<button class="copy-message-button action-btn" data-message-id="${messageId}">Copy</button>`; 
+            actionsDiv.innerHTML += `<button class="delete-button action-btn" data-message-id="${messageId}">Delete</button>`; 
             if (messageElement === lastUserMessageElement) {
-                 actionsDiv.innerHTML = `<button class="edit-button action-btn" data-message-id="${messageId}">Edit</button>` + actionsDiv.innerHTML;
+                 actionsDiv.innerHTML = `<button class="edit-button action-btn" data-message-id="${messageId}">Edit</button>` + actionsDiv.innerHTML; 
             }
         }
     });
-     attachAdvancedButtonListeners();
-     updateChatAreaAppearance();
+     attachAdvancedButtonListeners(); 
+     updateChatAreaAppearance(); 
 }
 
 /**
@@ -160,7 +161,7 @@ function typeEffect(element, text, delay = 5) {
     if (!element.querySelector('.typing-indicator')) {
          element.innerHTML = `<span class="typing-indicator"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>`;
     }
-    updateAllActionButtons();
+    updateAllActionButtons(); 
 
     return new Promise(resolve => {
         const interval = setInterval(() => {
@@ -169,31 +170,31 @@ function typeEffect(element, text, delay = 5) {
                 const messageElement = element.closest('.message.assistant');
                 const messageId = messageElement ? messageElement.dataset.messageId : null;
                 const versionsExist = messageId && aiMessageVersions && aiMessageVersions[messageId];
-                let displayedContent = markdownToHtmlJs(currentText);
+                let displayedContent = markdownToHtmlJs(currentText); 
                 if (messageElement && messageId && versionsExist && aiMessageVersions[messageId][aiMessageVersions[messageId].length -1] !== text) {
                     displayedContent += ' <em class="info-text">(Stopped)</em>';
                 }
                 element.innerHTML = displayedContent;
-                attachCopyButtonListeners(element);
-                scrollToBottom();
-                updateAllActionButtons();
+                attachCopyButtonListeners(element); 
+                scrollToBottom(); 
+                updateAllActionButtons(); 
                 resolve();
                 return;
             }
             if (i < text.length) {
                 currentText += text.charAt(i);
                 i++;
-                element.innerHTML = markdownToHtmlJs(currentText);
-                element.querySelectorAll('details.ai-thought').forEach(detail => { detail.open = true; });
-                attachCopyButtonListeners(element);
-                scrollToBottom();
+                element.innerHTML = markdownToHtmlJs(currentText); 
+                element.querySelectorAll('details.ai-thought').forEach(detail => { detail.open = true; }); 
+                attachCopyButtonListeners(element); 
+                scrollToBottom(); 
             } else {
                 clearInterval(interval);
-                element.innerHTML = markdownToHtmlJs(text);
-                element.querySelectorAll('details.ai-thought').forEach(detail => { detail.open = true; });
-                attachCopyButtonListeners(element);
-                updateAllActionButtons();
-                scrollToBottom();
+                element.innerHTML = markdownToHtmlJs(text); 
+                element.querySelectorAll('details.ai-thought').forEach(detail => { detail.open = true; }); 
+                attachCopyButtonListeners(element); 
+                updateAllActionButtons(); 
+                scrollToBottom(); 
                 resolve();
             }
         }, delay);
@@ -225,7 +226,6 @@ function handleCopyButtonClick(event) {
                 tempTextArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(tempTextArea);
-                showTempModal('Copied to clipboard!');
                 button.textContent = 'Copied!';
                 setTimeout(() => { button.textContent = 'Copy'; }, 2000);
             } catch (err) {
@@ -247,18 +247,18 @@ function updateAIMessageDisplay(messageElement, versionIndex, totalVersions, raw
     if (!messageElement) return;
     const messageContentDiv = messageElement.querySelector('.message-content');
     if (!messageContentDiv) return;
-    const htmlContent = markdownToHtmlJs(rawContent);
+    const htmlContent = markdownToHtmlJs(rawContent); 
     if (messageContentDiv.innerHTML !== htmlContent && !messageElement.querySelector('.edit-ai-container')) {
         messageContentDiv.innerHTML = htmlContent;
     }
-    messageContentDiv.querySelectorAll('details.ai-thought').forEach(detail => { detail.open = true; });
-    messageElement.dataset.currentVersionIndex = versionIndex;
-    messageElement.dataset.totalVersions = totalVersions;
+    messageContentDiv.querySelectorAll('details.ai-thought').forEach(detail => { detail.open = true; }); 
+    messageElement.dataset.currentVersionIndex = versionIndex; 
+    messageElement.dataset.totalVersions = totalVersions; 
     if (aiMessageVersions[messageElement.dataset.messageId]) {
          messageElement.dataset.allContents = JSON.stringify(aiMessageVersions[messageElement.dataset.messageId]);
     }
-    updateAllActionButtons();
-    attachCopyButtonListeners(messageContentDiv);
+    updateAllActionButtons(); 
+    attachCopyButtonListeners(messageContentDiv); 
 }
 
 function handleViewRawClick(event) {
@@ -267,9 +267,9 @@ function handleViewRawClick(event) {
     if (!messageElement || !aiMessageVersions[messageId] || !viewRawReplyModal || !rawReplyTextarea) return;
     const currentVersionIndex = parseInt(messageElement.dataset.currentVersionIndex) || 0;
     const rawContent = aiMessageVersions[messageId][currentVersionIndex];
-    rawReplyTextarea.value = rawContent || "";
-    viewRawReplyModal.style.display = 'flex';
-    setTimeout(() => autoResizeTextarea(rawReplyTextarea), 10);
+    rawReplyTextarea.value = rawContent || ""; 
+    viewRawReplyModal.style.display = 'flex'; 
+    setTimeout(() => autoResizeTextarea(rawReplyTextarea), 10); 
 }
 
 function handleEditAIClick(event) {
@@ -281,8 +281,8 @@ function handleEditAIClick(event) {
     if (!messageContentDiv || !actionsDiv || messageElement.querySelector('.edit-ai-container')) return;
     const currentVersionIndex = parseInt(messageElement.dataset.currentVersionIndex) || 0;
     const rawContent = aiMessageVersions[messageId][currentVersionIndex] || "";
-    messageContentDiv.style.display = 'none';
-    actionsDiv.style.display = 'none';
+    messageContentDiv.style.display = 'none'; 
+    actionsDiv.style.display = 'none'; 
     const editContainer = document.createElement('div');
     editContainer.classList.add('edit-ai-container');
     editContainer.innerHTML = `
@@ -291,23 +291,23 @@ function handleEditAIClick(event) {
             <button class="save-ai-button action-btn primary-btn">Save AI</button>
             <button class="cancel-ai-button action-btn">Cancel</button>
         </div>
-    `;
+    `; 
     messageElement.appendChild(editContainer);
     const editTextArea = editContainer.querySelector('.edit-ai-textarea');
-    setTimeout(() => { autoResizeTextarea(editTextArea); editTextArea.focus(); }, 10);
-    editTextArea.addEventListener('input', () => autoResizeTextarea(editTextArea));
+    setTimeout(() => { autoResizeTextarea(editTextArea); editTextArea.focus(); }, 10); 
+    editTextArea.addEventListener('input', () => autoResizeTextarea(editTextArea)); 
 
      editContainer.querySelector('.save-ai-button').onclick = () => {
         const newRawContent = editTextArea.value;
-        aiMessageVersions[messageId] = [newRawContent];
-        messageElement.dataset.currentVersionIndex = 0;
-        messageElement.dataset.totalVersions = 1;
-        messageElement.dataset.allContents = JSON.stringify(aiMessageVersions[messageId]);
-        messageContentDiv.innerHTML = markdownToHtmlJs(newRawContent);
+        aiMessageVersions[messageId] = [newRawContent]; 
+        messageElement.dataset.currentVersionIndex = 0; 
+        messageElement.dataset.totalVersions = 1; 
+        messageElement.dataset.allContents = JSON.stringify(aiMessageVersions[messageId]); 
+        messageContentDiv.innerHTML = markdownToHtmlJs(newRawContent); 
         editContainer.remove();
-        messageContentDiv.style.display = 'block';
-        actionsDiv.style.display = 'flex';
-        updateAllActionButtons();
+        messageContentDiv.style.display = 'block'; 
+        actionsDiv.style.display = 'flex'; 
+        updateAllActionButtons(); 
         
         const bodyParams = new URLSearchParams();
         bodyParams.append('action', 'saveEditedAIReply');
@@ -317,14 +317,14 @@ function handleEditAIClick(event) {
 
         fetch(window.location.pathname, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: bodyParams })
         .then(response => response.json())
-        .then(data => { showTempModal(data.success ? 'AI response updated.' : 'Error saving AI edit.', 2000, !data.success); })
-        .catch(error => { showTempModal('Network error saving AI edit.', 3000, true); });
+        .then(data => { showTempModal(data.success ? 'AI response updated.' : 'Error saving AI edit.', 2000, !data.success); }) 
+        .catch(error => { showTempModal('Network error saving AI edit.', 3000, true); }); 
     };
     editContainer.querySelector('.cancel-ai-button').onclick = () => {
         editContainer.remove();
-        messageContentDiv.style.display = 'block';
-        actionsDiv.style.display = 'flex';
-        updateAllActionButtons();
+        messageContentDiv.style.display = 'block'; 
+        actionsDiv.style.display = 'flex'; 
+        updateAllActionButtons(); 
     };
 }
 
@@ -343,8 +343,8 @@ function attachAdvancedButtonListeners() {
 }
 
 function toggleSettingsDropdown(event) {
-    event.stopPropagation();
-    document.getElementById("settingsDropdown")?.classList.toggle("show");
+    event.stopPropagation(); 
+    document.getElementById("settingsDropdown")?.classList.toggle("show"); 
 }
 
 /**
@@ -357,8 +357,8 @@ function setUiLoadingState(isLoading, reqId = null) {
     if (sendButton) {
         if (isLoading) {
             currentRequestId = reqId;
-            sendButton.textContent = 'Stop';
-            sendButton.classList.add('stop-button');
+            sendButton.textContent = 'Stop'; 
+            sendButton.classList.add('stop-button'); 
             sendButton.onclick = () => {
                 if (abortController) abortController.abort();
                 if (currentRequestId) {
@@ -367,17 +367,17 @@ function setUiLoadingState(isLoading, reqId = null) {
                     fetch(window.location.pathname, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: bodyParams })
                     .catch(e => console.error('Cancel err:', e));
                 }
-                setUiLoadingState(false);
+                setUiLoadingState(false); 
                 const streamingPlaceholder = chatBox.querySelector('.message-streaming-placeholder .message-content');
                 if (streamingPlaceholder?.querySelector('.typing-indicator')) {
-                    streamingPlaceholder.innerHTML = '<em class="info-text">Response stopped by user.</em>';
+                    streamingPlaceholder.innerHTML = '<em class="info-text">Response stopped by user.</em>'; 
                 }
-                updateAllActionButtons();
+                updateAllActionButtons(); 
             };
         } else {
-            sendButton.textContent = 'Send';
-            sendButton.classList.remove('stop-button');
-            sendButton.onclick = null;
+            sendButton.textContent = 'Send'; 
+            sendButton.classList.remove('stop-button'); 
+            sendButton.onclick = null; 
             currentRequestId = null;
         }
     }
@@ -412,10 +412,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof window.advancedSettings === 'undefined') {
         window.advancedSettings = { enable_raw_reply_view: false, enable_ai_response_edit: false };
     }
-    // Ensure csrfToken is available, even if empty (PHP will output an empty string if session token isn't set yet)
     if (typeof window.csrfToken === 'undefined') {
         console.warn('CSRF token not found on window. Ensure index.php sets window.csrfToken.');
-        window.csrfToken = ''; // Fallback to empty string
+        window.csrfToken = ''; 
     }
 
 
@@ -429,20 +428,26 @@ document.addEventListener('DOMContentLoaded', () => {
                  aiMessageVersions[messageId] = [el.querySelector('.message-content')?.textContent.trim() || 'Error'];
             }
         });
-        updateAllActionButtons();
-        updateChatAreaAppearance();
-        if (chatBox.querySelectorAll('.message').length > 0) forceScrollToBottom();
-        attachCopyButtonListeners();
-        const observer = new MutationObserver(() => { updateAllActionButtons(); updateChatAreaAppearance(); });
-        observer.observe(chatBox, { childList: true });
+        updateAllActionButtons(); 
+        updateChatAreaAppearance(); 
+        if (chatBox.querySelectorAll('.message').length > 0) forceScrollToBottom(); 
+        attachCopyButtonListeners(); 
+        const observer = new MutationObserver(() => { updateAllActionButtons(); updateChatAreaAppearance(); }); 
+        observer.observe(chatBox, { childList: true }); 
     }
 
     if(messageInput) {
-        messageInput.focus();
-        messageInput.addEventListener('input', () => autoResizeTextarea(messageInput));
-        autoResizeTextarea(messageInput);
+        messageInput.focus(); 
+        messageInput.addEventListener('input', () => {
+            autoResizeTextarea(messageInput);
+            // Explicitly scroll the chatBox to the bottom after the textarea resizes.
+            if (chatBox) {
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
+        autoResizeTextarea(messageInput); 
         messageInput.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter' && !isTouchDevice() && !event.shiftKey) {
+            if (event.key === 'Enter' && !isTouchDevice() && !event.shiftKey) { 
                 event.preventDefault();
                 if(chatForm && !messageInput.disabled) chatForm.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));
             }
@@ -450,20 +455,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (apiPromptTextarea) {
-        apiPromptTextarea.addEventListener('input', () => autoResizeTextarea(apiPromptTextarea));
+        apiPromptTextarea.addEventListener('input', () => autoResizeTextarea(apiPromptTextarea)); 
     }
 
-    if (settingsButton) settingsButton.addEventListener('click', toggleSettingsDropdown);
+    if (settingsButton) settingsButton.addEventListener('click', toggleSettingsDropdown); 
     
     window.addEventListener('click', function(event) {
         const activeSD = document.getElementById("settingsDropdown");
         if (activeSD?.classList.contains('show') && settingsButton && !settingsButton.contains(event.target) && !activeSD.contains(event.target)) {
             activeSD.classList.remove('show');
         }
-        if (apiSettingsModal && event.target === apiSettingsModal) apiSettingsModal.style.display = "none";
-        if (advancedSettingsModal && event.target === advancedSettingsModal) advancedSettingsModal.style.display = "none";
-        if (viewRawReplyModal && event.target === viewRawReplyModal) viewRawReplyModal.style.display = "none";
-        if (sessionManagerModal && event.target === sessionManagerModal) sessionManagerModal.style.display = "none";
+        if (apiSettingsModal && event.target === apiSettingsModal) apiSettingsModal.style.display = "none"; 
+        if (advancedSettingsModal && event.target === advancedSettingsModal) advancedSettingsModal.style.display = "none"; 
+        if (viewRawReplyModal && event.target === viewRawReplyModal) viewRawReplyModal.style.display = "none"; 
+        if (sessionManagerModal && event.target === sessionManagerModal) sessionManagerModal.style.display = "none"; 
         const dynModal = document.querySelector('.js-dynamic-confirm-modal');
         if (dynModal && event.target === dynModal) dynModal.remove();
     });
@@ -471,10 +476,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
             let modalClosed = false;
-            if (viewRawReplyModal?.style.display === 'flex') { viewRawReplyModal.style.display = 'none'; modalClosed = true; }
-            else if (advancedSettingsModal?.style.display === 'flex') { advancedSettingsModal.style.display = 'none'; modalClosed = true; }
-            else if (apiSettingsModal?.style.display === 'flex') { apiSettingsModal.style.display = 'none'; modalClosed = true; }
-            else if (sessionManagerModal?.style.display === 'flex') { sessionManagerModal.style.display = 'none'; modalClosed = true; }
+            if (viewRawReplyModal?.style.display === 'flex') { viewRawReplyModal.style.display = 'none'; modalClosed = true; } 
+            else if (advancedSettingsModal?.style.display === 'flex') { advancedSettingsModal.style.display = 'none'; modalClosed = true; } 
+            else if (apiSettingsModal?.style.display === 'flex') { apiSettingsModal.style.display = 'none'; modalClosed = true; } 
+            else if (sessionManagerModal?.style.display === 'flex') { sessionManagerModal.style.display = 'none'; modalClosed = true; } 
             const tempM = document.querySelector('.temp-feedback-modal-instance');
             if (tempM) { tempM.remove(); modalClosed = true; }
             const dynM = document.querySelector('.js-dynamic-confirm-modal');
@@ -488,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const bodyParams = new URLSearchParams({action: 'updateTextStreamingSetting', isEnabled: this.checked ? 'true' : 'false'});
             if (window.csrfToken) bodyParams.append('csrf_token', window.csrfToken);
             fetch(window.location.pathname, { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: bodyParams })
-            .then(r=>r.json()).then(d => { if(!d.success) { showTempModal('Failed to update.',2000,true); this.checked=!this.checked;}}).catch(e => {showTempModal('Network error.',2000,true); this.checked=!this.checked;});
+            .then(r=>r.json()).then(d => { if(!d.success) { showTempModal('Failed to update.',2000,true); this.checked=!this.checked;}}).catch(e => {showTempModal('Network error.',2000,true); this.checked=!this.checked;}); 
         });
     }
 
@@ -496,62 +501,59 @@ document.addEventListener('DOMContentLoaded', () => {
         apiSettingsButton.onclick = (e) => {
             e.preventDefault();
             if (apiSettingsModal) {
-                apiSettingsModal.style.display = "flex";
+                apiSettingsModal.style.display = "flex"; 
                 setTimeout(() => {
                     if (apiTemperatureSlider && temperatureValueDisplay) {
                         temperatureValueDisplay.textContent = parseFloat(apiTemperatureSlider.value).toFixed(2);
                     }
-                    if (apiPromptTextarea) autoResizeTextarea(apiPromptTextarea);
+                    if (apiPromptTextarea) autoResizeTextarea(apiPromptTextarea); 
                 }, 10);
             }
-            if (apiSettingsStatus) { apiSettingsStatus.textContent = ''; apiSettingsStatus.className = 'status-message'; apiSettingsStatus.style.display = 'none'; }
-            document.getElementById("settingsDropdown")?.classList.remove("show");
+            if (apiSettingsStatus) { apiSettingsStatus.textContent = ''; apiSettingsStatus.className = 'status-message'; apiSettingsStatus.style.display = 'none'; } 
+            document.getElementById("settingsDropdown")?.classList.remove("show"); 
         };
     }
-    if (closeApiSettingsModalButton) closeApiSettingsModalButton.onclick = () => { if (apiSettingsModal) apiSettingsModal.style.display = "none"; };
-    if (closeViewRawReplyModalButton) closeViewRawReplyModalButton.onclick = () => { if (viewRawReplyModal) viewRawReplyModal.style.display = "none"; };
+    if (closeApiSettingsModalButton) closeApiSettingsModalButton.onclick = () => { if (apiSettingsModal) apiSettingsModal.style.display = "none"; }; 
+    if (closeViewRawReplyModalButton) closeViewRawReplyModalButton.onclick = () => { if (viewRawReplyModal) viewRawReplyModal.style.display = "none"; }; 
 
     if (advancedSettingsButton) {
          advancedSettingsButton.onclick = (e) => {
             e.preventDefault();
-            if (advancedSettingsModal) advancedSettingsModal.style.display = "flex";
-            if (advancedSettingsStatus) { advancedSettingsStatus.textContent = ''; advancedSettingsStatus.className = 'status-message'; advancedSettingsStatus.style.display = 'none'; }
-            document.getElementById("settingsDropdown")?.classList.remove("show");
+            if (advancedSettingsModal) advancedSettingsModal.style.display = "flex"; 
+            if (advancedSettingsStatus) { advancedSettingsStatus.textContent = ''; advancedSettingsStatus.className = 'status-message'; advancedSettingsStatus.style.display = 'none'; } 
+            document.getElementById("settingsDropdown")?.classList.remove("show"); 
         };
     }
-    if (closeAdvancedSettingsModalButton) closeAdvancedSettingsModalButton.onclick = () => { if (advancedSettingsModal) advancedSettingsModal.style.display = "none";};
-    if (apiTemperatureSlider && temperatureValueDisplay) apiTemperatureSlider.addEventListener('input', function() { temperatureValueDisplay.textContent = parseFloat(this.value).toFixed(2); });
+    if (closeAdvancedSettingsModalButton) closeAdvancedSettingsModalButton.onclick = () => { if (advancedSettingsModal) advancedSettingsModal.style.display = "none";}; 
+    if (apiTemperatureSlider && temperatureValueDisplay) apiTemperatureSlider.addEventListener('input', function() { temperatureValueDisplay.textContent = parseFloat(this.value).toFixed(2); }); 
 
     if (apiSettingsForm) {
         apiSettingsForm.addEventListener('submit', function(event) {
             event.preventDefault();
-            const formData = new FormData(this); // FormData is fine for this form
+            const formData = new FormData(this); 
             formData.append('action', 'saveApiSettings');
             if (window.csrfToken) formData.append('csrf_token', window.csrfToken);
-            // api_temperature is already part of FormData from the range input
-            // If it wasn't, you'd do: if (apiTemperatureSlider) formData.set('api_temperature', apiTemperatureSlider.value);
-            
+       
             const saveBtn = this.querySelector('button[type="submit"]');
             if(saveBtn){ saveBtn.disabled = true; saveBtn.textContent = 'Saving...';}
             if(apiSettingsStatus){ apiSettingsStatus.textContent=''; apiSettingsStatus.className='status-message'; apiSettingsStatus.style.display='none';}
             
-            // For FormData, fetch doesn't need Content-Type header to be set manually
             fetch(window.location.pathname,{method:'POST', body:formData})
             .then(r=>r.json()).then(d=>{
                 if(d.success){
-                    if(apiSettingsStatus){apiSettingsStatus.textContent=d.message||'Settings saved!';apiSettingsStatus.className='status-message success';apiSettingsStatus.style.display='block';setTimeout(()=>apiSettingsStatus.style.display='none',2500);}
-                    setTimeout(()=> {if(apiSettingsModal)apiSettingsModal.style.display="none";},1000);
+                    if(apiSettingsStatus){apiSettingsStatus.textContent=d.message||'Settings saved!';apiSettingsStatus.className='status-message success';apiSettingsStatus.style.display='block';setTimeout(()=>apiSettingsStatus.style.display='none',2500);} 
+                    setTimeout(()=> {if(apiSettingsModal)apiSettingsModal.style.display="none";},1000); 
                 }else{
-                    if(apiSettingsStatus){apiSettingsStatus.textContent='Error: '+(d.error||'Could not save.');apiSettingsStatus.className='status-message error';apiSettingsStatus.style.display='block';setTimeout(()=>apiSettingsStatus.style.display='none',3000);}
+                    if(apiSettingsStatus){apiSettingsStatus.textContent='Error: '+(d.error||'Could not save.');apiSettingsStatus.className='status-message error';apiSettingsStatus.style.display='block';setTimeout(()=>apiSettingsStatus.style.display='none',3000);} 
                 }
-            }).catch(e=>{console.error('Err saving API settings:',e);if(apiSettingsStatus){apiSettingsStatus.textContent='Network error.';apiSettingsStatus.className='status-message error';apiSettingsStatus.style.display='block';setTimeout(()=>apiSettingsStatus.style.display='none',3000);}})
+            }).catch(e=>{console.error('Err saving API settings:',e);if(apiSettingsStatus){apiSettingsStatus.textContent='Network error.';apiSettingsStatus.className='status-message error';apiSettingsStatus.style.display='block';setTimeout(()=>apiSettingsStatus.style.display='none',3000);}}) 
             .finally(()=>{if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='Save Settings';}});
         });
     }
     if (advancedSettingsForm) {
         advancedSettingsForm.addEventListener('submit', function(event) {
             event.preventDefault();
-            const formData = new FormData(this); // FormData is fine
+            const formData = new FormData(this); 
             formData.append('action', 'saveAdvancedSettings');
             if (window.csrfToken) formData.append('csrf_token', window.csrfToken);
             
@@ -562,14 +564,14 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch(window.location.pathname,{method:'POST', body:formData})
             .then(r=>r.json()).then(d=>{
                 if(d.success){
-                    if(advancedSettingsStatus){advancedSettingsStatus.textContent=d.message||'Settings saved!';advancedSettingsStatus.className='status-message success';advancedSettingsStatus.style.display='block';setTimeout(()=>advancedSettingsStatus.style.display='none',2500);}
-                    if (d.settings) window.advancedSettings = d.settings;
-                    updateAllActionButtons();
-                    setTimeout(()=> {if(advancedSettingsModal)advancedSettingsModal.style.display="none";},1000);
+                    if(advancedSettingsStatus){advancedSettingsStatus.textContent=d.message||'Settings saved!';advancedSettingsStatus.className='status-message success';advancedSettingsStatus.style.display='block';setTimeout(()=>advancedSettingsStatus.style.display='none',2500);} 
+                    if (d.settings) window.advancedSettings = d.settings; 
+                    updateAllActionButtons(); 
+                    setTimeout(()=> {if(advancedSettingsModal)advancedSettingsModal.style.display="none";},1000); 
                 }else{
-                    if(advancedSettingsStatus){advancedSettingsStatus.textContent='Error: '+(d.error||'Could not save.');advancedSettingsStatus.className='status-message error';advancedSettingsStatus.style.display='block';setTimeout(()=>advancedSettingsStatus.style.display='none',3000);}
+                    if(advancedSettingsStatus){advancedSettingsStatus.textContent='Error: '+(d.error||'Could not save.');advancedSettingsStatus.className='status-message error';advancedSettingsStatus.style.display='block';setTimeout(()=>advancedSettingsStatus.style.display='none',3000);} 
                 }
-            }).catch(e=>{console.error('Err saving advanced settings:',e);if(advancedSettingsStatus){advancedSettingsStatus.textContent='Network error.';advancedSettingsStatus.className='status-message error';advancedSettingsStatus.style.display='block';setTimeout(()=>advancedSettingsStatus.style.display='none',3000);}})
+            }).catch(e=>{console.error('Err saving advanced settings:',e);if(advancedSettingsStatus){advancedSettingsStatus.textContent='Network error.';advancedSettingsStatus.className='status-message error';advancedSettingsStatus.style.display='block';setTimeout(()=>advancedSettingsStatus.style.display='none',3000);}}) 
             .finally(()=>{if(saveBtn){saveBtn.disabled=false;saveBtn.textContent='Save Advanced Settings';}});
         });
     }
@@ -600,12 +602,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (noButton) noButton.onclick = closeFn;
             if (yesButton) yesButton.onclick = () => {
                 closeFn();
-                // For GET clear, CSRF is less critical but could be added to URL if needed for hardened version
-                // Example: window.location.href = '?clear=1&csrf_token=' + encodeURIComponent(window.csrfToken);
                 window.location.href = '?clear=1'; 
             };
-            if (modalContent) modalContent.addEventListener('click', e => e.stopPropagation());
-            document.getElementById("settingsDropdown")?.classList.remove("show");
+            if (modalContent) modalContent.addEventListener('click', e => e.stopPropagation()); 
+            document.getElementById("settingsDropdown")?.classList.remove("show"); 
         });
     }
 });
